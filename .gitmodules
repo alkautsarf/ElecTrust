@@ -1,3 +1,6 @@
 [submodule "elecTrust/lib/forge-std"]
 	path = elecTrust/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "elecTrust/lib/openzeppelin-contracts"]
+	path = elecTrust/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
