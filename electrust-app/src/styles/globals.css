@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#shadow {
+  text-shadow: 2.5px 2.5px 0px rgba(211, 210, 249, 1);
+  /* transform: scale(1.1) translateY(-2px); */
+}
