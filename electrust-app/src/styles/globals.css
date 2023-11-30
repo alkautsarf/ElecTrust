@@ -3,6 +3,36 @@
 @tailwind utilities;
 
 #shadow {
-  text-shadow: 2.5px 2.5px 0px rgba(211, 210, 249, 1);
+  text-shadow: 2.5px 2.5px 0px rgba(237, 234, 222, 1); 
   /* transform: scale(1.1) translateY(-2px); */
 }
+
+body {
+  background-color: '#FBF7F0';
+}
+
+.parallax {
+  overflow: hidden;
+  letter-spacing: -2px;
+  line-height: 0.8;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax .scroller {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 64px;
+  display: flex;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax span {
+  display: block;
+  margin-right: 30px;
+}
+
