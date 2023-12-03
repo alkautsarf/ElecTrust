@@ -10,7 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         'huge': '#C3FF03',
-        'origin': '#274835'
+        'origin': '#274835',
+        'function': '#9A4CC4'
       },
     }
   },

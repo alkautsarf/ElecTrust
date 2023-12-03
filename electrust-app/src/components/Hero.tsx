@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Poppins } from "next/font/google";
 import { useAnimate, motion } from "framer-motion";
+import { Poppins } from "next/font/google";
 
 const poppins600 = Poppins({ weight: "600", subsets: ["latin"] });
 
-
 const SpinningBoxText = () => {
   return (
-    <span className="flex flex-col items-center justify-center gap-6 text-5xl font-semibold text-black md:flex-row md:gap-4">
-      <span className="text-7xl">Redefining</span>{" "}
+    <div className="flex flex-col items-center justify-center gap-6 text-5xl font-semibold text-black md:flex-row md:gap-4" >
+      <div className="text-7xl">Redefining</div>{" "}
       <Box
         front="Trust"
         bottom="Transparency"
         back="Democracy"
         top="Security"
       />
-    </span>
+    </div>
   );
 };
 
@@ -42,7 +41,7 @@ const Box = ({ front, bottom, back, top }: any) => {
       }}
       transition={{
         repeat: Infinity,
-        duration: 15,
+        duration: 10,
         ease: "backInOut",
         times: [0, 0.2, 0.25, 0.45, 0.5, 0.7, 0.75, 1],
       }}
@@ -89,7 +88,6 @@ const Hero = () => {
   useEffect(() => {
     generateGridCount();
     window.addEventListener("resize", generateGridCount);
-
     return () => window.removeEventListener("resize", generateGridCount);
   }, []);
 
@@ -131,18 +129,18 @@ const Hero = () => {
           />
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-[315px]">
-        <div className="flex flex-col items-center justify-center p-8">
-        <h1
-          className={`${poppins600.className} text-center text-7xl font-black  text-neutral-950 sm:text-8xl md:text-8xl mb-6`}
-        >
-          <SpinningBoxText />
-        </h1>
-        <button
-          className={`${poppins600.className} mt-4 pointer-events-auto rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none`}
-        >
-          Get Started
-        </button>
+      <div className="absolute inset-[385px]">
+        <div className="pointer-events-none flex flex-col items-center justify-center p-8">
+          <div
+            className={`${poppins600.className} text-center text-7xl font-black text-neutral-950 sm:text-8xl md:text-8xl mb-6`}
+          >
+            <SpinningBoxText />
+          </div>
+          <button
+            className={`${poppins600.className} mt-4 pointer-events-auto rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none`}
+          >
+            Get Started
+          </button>
         </div>
       </div>
     </>
@@ -150,5 +148,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
-

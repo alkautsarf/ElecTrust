@@ -1,14 +1,9 @@
 import ConnectButtonCustom from "./ConnectButton";
 import { motion } from "framer-motion";
-import { ReactNode } from 'react';
 import {
-  Kanit,
-  Nova_Square,
-  Roboto,
-  Rubik,
-  Montserrat,
   Poppins
 } from "next/font/google";
+import Link from "next/link";
 
 const poppins600 = Poppins({ weight: "600", subsets: ["latin"] });
 
@@ -22,11 +17,11 @@ const Navbar = () => {
 
 const SimpleFloatingNav = () => {
   return (
-    <nav className="fixed left-[50%] top-8 flex w-fit -translate-x-[50%] items-center gap-6 rounded-lg border-[1px] border-neutral-700 bg-white p-2 text-sm text-neutral-800 z-30">
+    <nav className="fixed left-[50%] top-8 flex w-fit -translate-x-[50%] items-center gap-6 rounded-lg border-[1px] border-neutral-700 bg-white p-2 text-sm text-neutral-800 z-50">
       <Logo />
-      <NavLink>Home</NavLink>
-      <NavLink>About</NavLink>
-      <NavLink>Pricing</NavLink>
+      <NavLink to="/#home">Home</NavLink>
+      <NavLink to="/#about">About</NavLink>
+      <NavLink to="/app">App</NavLink>
       <ConnectButtonCustom />
     </nav>
   );
@@ -57,20 +52,20 @@ const Logo = () => {
 
 
 
-const NavLink = ({ children }: { children: ReactNode }) => {
+const NavLink = ({ children, to }: any) => {
   return (
-    <a href="#" rel="nofollow" className="block overflow-hidden">
+    <Link href={to} rel="nofollow" className="block overflow-hidden">
       <motion.div
         whileHover={{ y: -20 }}
         transition={{ ease: "backInOut", duration: 0.5 }}
         className="h-[20px]"
       >
         <span className="flex h-[20px] items-center">{children}</span>
-        <span className="flex h-[20px] items-center text-black">
+        <span className="flex h-[20px] items-center text-indigo-500">
           {children}
         </span>
       </motion.div>
-    </a>
+    </Link>
   );
 };
 

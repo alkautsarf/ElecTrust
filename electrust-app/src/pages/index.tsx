@@ -1,23 +1,23 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TrippyHero from "@/components/Trippy";
-import TerminalContact from "@/components/Terminal";
+import Terminal from "@/components/Terminal";
 import FuzzyOverlayExample from "@/components/Terminal";
 import Example from "@/components/Column";
+import SwapColumnFeatures from "@/components/Column";
+import Footer from "@/components/Footer";
+import GlassNavigation from "@/components/NavbarHome";
 
 const Home = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white" id="home">
       <Navbar />
+      {/* <GlassNavigation /> */}
       <Hero />
-      <TerminalContact />
-      {/* <Example /> */}
-      {/* <FuzzyOverlayExample /> */}
-      {/* <TrippyHero /> */}
+      <Terminal />
+      <SwapColumnFeatures />
+      <Footer />
     </div>
   );
 };
 
 export default Home;
-
-

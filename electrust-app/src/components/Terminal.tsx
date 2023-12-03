@@ -4,12 +4,12 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Poppins } from "next/font/google";
 const poppins500 = Poppins({ weight: "500", subsets: ["latin"] });
 
-const TerminalContact = () => {
+const Terminal = () => {
   const containerRef = useRef(null);
   const inputRef: any = useRef(null);
 
   return (
-    <section className="mx-10 flex justify-center items-center gap-6 h-screen flex-col">
+    <section className="mx-10 flex justify-center items-center gap-6 h-[120vh] flex-col" id="about">
       <div>
         <h2 className={`${poppins500.className} text-8xl px-6 py-3`}>
           What is
@@ -22,7 +22,7 @@ const TerminalContact = () => {
       </div>
       <div
         ref={containerRef}
-        className=" bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono mt-8"
+        className=" bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono mt-8 "
       >
         <TerminalHeader />
         <TerminalBody inputRef={inputRef} containerRef={containerRef} />
@@ -130,7 +130,7 @@ const CurLine = ({
   );
 };
 
-export default TerminalContact;
+export default Terminal;
 
 const QUESTIONS = [
   {
