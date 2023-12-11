@@ -1,22 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { FiAlertCircle } from "react-icons/fi";
 import { FaEthereum } from "react-icons/fa6";
-import {
-  useAccount,
-  useContractWrite,
-  usePrepareContractWrite,
-  useContractRead,
-} from "wagmi";
-import {
-  createWalletClient,
-  custom,
-  parseEther,
-  createPublicClient,
-  http,
-} from "viem";
-import { sepolia } from "viem/chains";
-import { elecTrustV2ABI } from "@/generated";
-import Terminal from "./Terminal";
+import { useAccount } from "wagmi";
+import { FiCheckCircle, FiXCircle } from "react-icons/fi";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { deployContract } from "@/scripts/contract";
+import Link from "next/link";
 
 declare global {
   interface Window {
@@ -30,34 +18,8 @@ const SpringModal = ({
   contractAddresses,
   setContractAddresses,
 }: any) => {
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
 
-  async function deployContract() {
-    try {
-      const client = createWalletClient({
-        account: address,
-        chain: sepolia,
-        transport: custom(window.ethereum),
-      });
-      const hash = await client.deployContract({
-        abi: elecTrustV2ABI,
-        bytecode: process.env.NEXT_PUBLIC_BYTECODE as `0x${string}`,
-        // @ts-ignore
-        args: [3],
-      });
-      const publicClient = createPublicClient({
-        chain: sepolia,
-        transport: http(process.env.NEXT_PUBLIC_ALCHEMY_SEPOLIA),
-      });
-      const tx = await publicClient.waitForTransactionReceipt({
-        hash,
-      });
-      setContractAddresses([...contractAddresses, tx.contractAddress]);
-      if (tx) setIsOpen(false);
-    } catch (e) {
-      console.log(e);
-    }
-  }
   return (
     <AnimatePresence>
       {isOpen && (
@@ -73,7 +35,7 @@ const SpringModal = ({
             animate={{ scale: 1, rotate: "0deg" }}
             exit={{ scale: 0, rotate: "0deg" }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-gradient-to-br from-slate-300 to-slate-400 text-black p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
+            className="sm:max-w-sm md:max-w-2xl lg:max-w-full"
           >
             <FaEthereum className="text-black/10 rotate-12 text-[250px] absolute z-0 -top-24 -left-24" />
             <div className="relative z-10">
@@ -81,144 +43,14 @@ const SpringModal = ({
                 <FaEthereum />
               </div>
               <h3 className="text-3xl font-bold text-center mb-2">
-                Make Your Election
+                Create Your Election
               </h3>
-
-              <form className="max-w-md mx-auto">
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    type="email"
-                    name="floating_email"
-                    id="floating_email"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="floating_email"
-                    className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Email address
-                  </label>
-                </div>
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    type="password"
-                    name="floating_password"
-                    id="floating_password"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="floating_password"
-                    className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Password
-                  </label>
-                </div>
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    type="password"
-                    name="repeat_password"
-                    id="floating_repeat_password"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="floating_repeat_password"
-                    className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Confirm password
-                  </label>
-                </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
-                  <div className="relative z-0 w-full mb-5 group">
-                    <input
-                      type="text"
-                      name="floating_first_name"
-                      id="floating_first_name"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="floating_first_name"
-                      className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      First name
-                    </label>
-                  </div>
-                  <div className="relative z-0 w-full mb-5 group">
-                    <input
-                      type="text"
-                      name="floating_last_name"
-                      id="floating_last_name"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="floating_last_name"
-                      className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Last name
-                    </label>
-                  </div>
-                </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
-                  <div className="relative z-0 w-full mb-5 group">
-                    <input
-                      type="tel"
-                      pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                      name="floating_phone"
-                      id="floating_phone"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="floating_phone"
-                      className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Phone number (123-456-7890)
-                    </label>
-                  </div>
-                  <div className="relative z-0 w-full mb-5 group">
-                    <input
-                      type="text"
-                      name="floating_company"
-                      id="floating_company"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="floating_company"
-                      className="peer-focus:font-medium absolute text-sm text-black duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Company (Ex. Google)
-                    </label>
-                  </div>
-                </div>
-              </form>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="bg-transparent hover:bg-white/10 transition-colors text-black font-semibold w-full py-2 rounded"
-                >
-                  Nah, go back
-                </button>
-                <button
-                  onClick={() => {
-                    deployContract();
-                  }}
-                  className="bg-white hover:opacity-90 transition-opacity text-black font-semibold w-full py-2 rounded"
-                >
-                  Deploy
-                </button>
-              </div>
+              <TerminalContact
+                address={address}
+                contractAddresses={contractAddresses}
+                setContractAddresses={setContractAddresses}
+                setIsOpen={setIsOpen}
+              />
             </div>
           </motion.div>
         </motion.div>
@@ -228,3 +60,350 @@ const SpringModal = ({
 };
 
 export default SpringModal;
+
+const TerminalContact = ({
+  address,
+  contractAddresses,
+  setContractAddresses,
+  setIsOpen,
+}: any) => {
+  const containerRef = useRef(null);
+  const inputRef: any = useRef(null);
+
+  return (
+    <section
+      style={{
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className="px-4 py-6 bg-inherit"
+    >
+      <div
+        ref={containerRef}
+        onClick={() => {
+          inputRef.current?.focus();
+        }}
+        className="h-96 bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono"
+      >
+        <TerminalHeader />
+        <TerminalBody
+          inputRef={inputRef}
+          containerRef={containerRef}
+          address={address}
+          contractAddresses={contractAddresses}
+          setContractAddresses={setContractAddresses}
+          setIsOpen={setIsOpen}
+        />
+      </div>
+    </section>
+  );
+};
+
+const TerminalHeader = () => {
+  return (
+    <div className="w-full p-3 bg-slate-900 flex items-center gap-1 sticky top-0">
+      <div className="w-3 h-3 rounded-full bg-red-500" />
+      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+      <div className="w-3 h-3 rounded-full bg-green-500" />
+      <span className="text-sm text-slate-200 font-semibold absolute left-[50%] -translate-x-[50%]">
+        alkautsarsol22@gmail.com
+      </span>
+    </div>
+  );
+};
+
+const TerminalBody = ({
+  containerRef,
+  inputRef,
+  address,
+  contractAddresses,
+  setContractAddresses,
+  setIsOpen,
+}: any) => {
+  const [focused, setFocused] = useState(false);
+  const [text, setText] = useState("");
+
+  const [questions, setQuestions] = useState(QUESTIONS);
+
+  const curQuestion = questions.find((q) => !q.complete);
+
+  const handleSubmitLine = (value: any) => {
+    if (curQuestion) {
+      setQuestions((pv) =>
+        pv.map((q) => {
+          if (q.key === curQuestion.key) {
+            return {
+              ...q,
+              complete: true,
+              value,
+            };
+          }
+          return q;
+        })
+      );
+    }
+  };
+
+  return (
+    <div className="p-2 text-slate-100 text-lg">
+      <InitialText />
+      <PreviousQuestions questions={questions} />
+      <CurrentQuestion curQuestion={curQuestion} />
+      {curQuestion ? (
+        <CurLine
+          text={text}
+          focused={focused}
+          setText={setText}
+          setFocused={setFocused}
+          inputRef={inputRef}
+          command={curQuestion?.key || ""}
+          handleSubmitLine={handleSubmitLine}
+          containerRef={containerRef}
+        />
+      ) : (
+        <Summary
+          questions={questions}
+          setQuestions={setQuestions}
+          address={address}
+          contractAddresses={contractAddresses}
+          setContractAddresses={setContractAddresses}
+          setIsOpen={setIsOpen}
+        />
+      )}
+    </div>
+  );
+};
+
+const InitialText = () => {
+  return (
+    <>
+      <p>Hey there! Let's create your election 🎉</p>
+      <p className="whitespace-nowrap overflow-hidden font-light">
+        ------------------------------------------------------------------------
+      </p>
+    </>
+  );
+};
+
+const PreviousQuestions = ({ questions }: any) => {
+  return (
+    <>
+      {questions.map((q: any, i: any) => {
+        if (q.complete) {
+          return (
+            <Fragment key={i}>
+              <p>
+                {q.text || ""}
+                {q.postfix && (
+                  <span className="text-violet-300">{q.postfix}</span>
+                )}
+              </p>
+              <p className="text-emerald-300">
+                <FiCheckCircle className="inline-block mr-2" />
+                <span>{q.value}</span>
+              </p>
+            </Fragment>
+          );
+        }
+        return <Fragment key={i}></Fragment>;
+      })}
+    </>
+  );
+};
+
+const CurrentQuestion = ({ curQuestion }: any) => {
+  if (!curQuestion) return <></>;
+
+  return (
+    <p>
+      {curQuestion.text || ""}
+      {curQuestion.postfix && (
+        <span className="text-violet-300">{curQuestion.postfix}</span>
+      )}
+    </p>
+  );
+};
+
+const Summary = ({
+  questions,
+  setQuestions,
+  address,
+  contractAddresses,
+  setContractAddresses,
+  setIsOpen,
+}: any) => {
+  const [complete, setComplete] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [txHash, setTxHash] = useState("");
+
+  const handleReset = () => {
+    setQuestions((pv: any) =>
+      pv.map((q: any) => ({ ...q, value: "", complete: false }))
+    );
+  };
+
+  const handleSend = async () => {
+    const formData = questions.reduce((acc: any, val: any) => {
+      return { ...acc, [val.key]: val.value };
+    }, {});
+    setComplete(true);
+    const ca: any = await deployContract(
+      address,
+      formData.name,
+      +formData.number,
+      +formData.duration || 1,
+      formData.candidateName,
+    );
+    ca.length > 0 && setTxHash(ca);
+    ca?.cause?.code == 4001
+      ? setSuccess("User rejected the tx :(")
+      : setSuccess("");
+  };
+
+  return (
+    <>
+      <p>Beautiful! Here's what we've got:</p>
+      {questions.map((q: any) => {
+        return (
+          <p key={q.key}>
+            <span className="text-blue-300">{q.key}:</span> {q.value}
+          </p>
+        );
+      })}
+      <p>Look good?</p>
+      {complete && success.length == 0 ? (
+        <p className="text-emerald-300 truncate">
+          <FiCheckCircle className="inline-block mr-2" />
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <span>
+              {txHash.length > 0
+                ? <span className="underline">Deployed</span>
+                : "Your contract being deployed 🚀"}
+            </span>
+          </Link>
+        </p>
+      ) : success ? (
+        <p className="text-rose-500">
+          <FiXCircle className="inline-block mr-2" />
+          <span>{success}</span>
+        </p>
+      ) : (
+        <div className="flex gap-2 mt-2">
+          <button
+            onClick={handleReset}
+            className="px-3 py-1 text-base hover:opacity-90 transition-opacity rounded bg-slate-100 text-black"
+          >
+            Restart
+          </button>
+          <button
+            onClick={handleSend}
+            className="px-3 py-1 text-base hover:opacity-90 transition-opacity rounded bg-indigo-500 text-white"
+          >
+            Deploy!
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
+const CurLine = ({
+  text,
+  focused,
+  setText,
+  setFocused,
+  inputRef,
+  command,
+  handleSubmitLine,
+  containerRef,
+}: any) => {
+  const scrollToBottom = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    handleSubmitLine(text);
+    setText("");
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0);
+  };
+
+  const onChange = (e: any) => {
+    setText(e.target.value);
+    scrollToBottom();
+  };
+
+  useEffect(() => {
+    return () => setFocused(false);
+  }, []);
+
+  return (
+    <>
+      <form onSubmit={onSubmit}>
+        <input
+          ref={inputRef}
+          onChange={onChange}
+          value={text}
+          type="text"
+          className="sr-only"
+          autoComplete="off"
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+      </form>
+      <p>
+        <span className="text-emerald-400">➜</span>{" "}
+        <span className="text-cyan-300">~</span>{" "}
+        {command && <span className="opacity-50">Enter {command}: </span>}
+        {text}
+        {focused && (
+          <motion.span
+            animate={{ opacity: [1, 1, 0, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: 1,
+              ease: "linear",
+              times: [0, 0.5, 0.5, 1],
+            }}
+            className="inline-block w-2 h-5 bg-slate-400 translate-y-1 ml-0.5"
+          />
+        )}
+      </p>
+    </>
+  );
+};
+
+const QUESTIONS = [
+  {
+    key: "name",
+    text: "To start, what will you name",
+    postfix: " your election ?",
+    complete: false,
+    value: "",
+  },
+  {
+    key: "number",
+    text: "Awesome! And how many candidate",
+    postfix: " will participate ?",
+    complete: false,
+    value: "",
+  },
+  {
+    key: "candidateName",
+    text: "Perfect, now please set the name of each candidate seperated by ",
+    postfix: "commas!",
+    complete: false,
+    value: "",
+  },
+  {
+    key: "duration",
+    text: "Now, how long this vote will last in ",
+    postfix: "days format ?",
+    complete: false,
+    value: "",
+  },
+];

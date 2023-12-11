@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAnimate, motion } from "framer-motion";
 import { Poppins } from "next/font/google";
+import { useRouter } from "next/router";
 
 const poppins600 = Poppins({ weight: "600", subsets: ["latin"] });
 
@@ -81,6 +82,8 @@ const Box = ({ front, bottom, back, top }: any) => {
 };
 
 const Hero = () => {
+
+  const router = useRouter();
   const [scope, animate] = useAnimate();
 
   const [size, setSize] = useState({ columns: 0, rows: 0 });
@@ -91,9 +94,14 @@ const Hero = () => {
     return () => window.removeEventListener("resize", generateGridCount);
   }, []);
 
+  useEffect(() => {
+    console.log(document.body.clientHeight);
+    
+  }, [size]);
   const generateGridCount = () => {
     const columns = Math.floor(document.body.clientWidth / 75);
-    const rows = Math.floor(document.body.clientHeight / 75);
+    // const rows = Math.floor(document.body.clientHeight / 75);
+    const rows = Math.floor(884 / 75);
 
     setSize({
       columns,
@@ -137,6 +145,9 @@ const Hero = () => {
             <SpinningBoxText />
           </div>
           <button
+            onClick={() => {
+              router.push("/app");
+            }}
             className={`${poppins600.className} mt-4 pointer-events-auto rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none`}
           >
             Get Started

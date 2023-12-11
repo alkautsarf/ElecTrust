@@ -11,7 +11,6 @@ const Home = () => {
   return (
     <div className="bg-white" id="home">
       <Navbar />
-      {/* <GlassNavigation /> */}
       <Hero />
       <Terminal />
       <SwapColumnFeatures />

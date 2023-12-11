@@ -99,6 +99,13 @@ export const elecTrustV2ABI = [
   {
     stateMutability: 'view',
     type: 'function',
+    inputs: [],
+    name: 'getName',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
     inputs: [
       { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
     ],
@@ -111,13 +118,6 @@ export const elecTrustV2ABI = [
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'hasVoted',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
   },
   {
     stateMutability: 'view',
@@ -151,6 +151,256 @@ export const elecTrustV2ABI = [
     ],
     name: 'vote',
     outputs: [],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'voter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'candidateIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Voted',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ElecTrustV3
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const elecTrustV3ABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getCandidateName',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'getName',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getVotes',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'hasVoted',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+      { name: '_name', internalType: 'string', type: 'string' },
+    ],
+    name: 'setCandidateName',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_name', internalType: 'string', type: 'string' },
+      { name: '_totalCandidates', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setElection',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalCandidates',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'vote',
+    outputs: [],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'electionName',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+      {
+        name: 'totalCandidates',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'ElectionCreated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'voter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'candidateIndex',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Voted',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ElecTrustV4
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const elecTrustV4ABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'duration',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'electionName',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getCandidateName',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getVotes',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'hasVoted',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+      { name: '_name', internalType: 'string', type: 'string' },
+    ],
+    name: 'setCandidateName',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_name', internalType: 'string', type: 'string' },
+      { name: '_totalCandidates', internalType: 'uint256', type: 'uint256' },
+      { name: '_duration', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setElection',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalCandidates',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'candidateIndex', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'vote',
+    outputs: [],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'electionName',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+      {
+        name: 'totalCandidates',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'ElectionCreated',
   },
   {
     type: 'event',
