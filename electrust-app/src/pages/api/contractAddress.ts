@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'POST') {
       const { contractAddress, owner } = req.body;
-      console.log(req.body, '<<<<<<<<< data');
+
 
       await collection.insertOne({ contractAddress, owner });
 

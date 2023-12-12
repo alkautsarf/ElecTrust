@@ -94,10 +94,7 @@ const Hero = () => {
     return () => window.removeEventListener("resize", generateGridCount);
   }, []);
 
-  useEffect(() => {
-    console.log(document.body.clientHeight);
-    
-  }, [size]);
+
   const generateGridCount = () => {
     const columns = Math.floor(document.body.clientWidth / 75);
     // const rows = Math.floor(document.body.clientHeight / 75);

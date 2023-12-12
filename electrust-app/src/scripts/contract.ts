@@ -31,7 +31,7 @@ export async function deployContract(
     });
 
     const candidateNames = candidateName.split(",").map((item) => item.trim());
-    console.log(candidateNames)
+
     const { request: requestElection } = await publicClient.simulateContract({
       address: tx.contractAddress as `0x${string}`,
       abi: elecTrustV4ABI,
@@ -46,7 +46,7 @@ export async function deployContract(
 
     candidateNames.forEach(async (item, index: any) => {
       try {
-        console.log("masuk");
+
         const { request } = await publicClient.simulateContract({
           address: tx.contractAddress as `0x${string}`,
           abi: elecTrustV4ABI,
@@ -56,7 +56,7 @@ export async function deployContract(
         });
         await client.writeContract(request);
       } catch (e) {
-        console.log(e);
+
         return e;
       }
     });
@@ -82,7 +82,7 @@ export async function readContractData(contractAddress: any, functionName: any) 
       ...wagmiContract,
       functionName,
     });
-    console.log(data, "<<<<<<<");
+
     return data;
   } catch (e) {
     return e;
@@ -187,7 +187,7 @@ export async function castVote(address: any, contractAddress: any, candidateInde
       account: address,
     })
     await client.writeContract(request)
-    console.log('success')
+
   } catch (e) {
     return e
   }

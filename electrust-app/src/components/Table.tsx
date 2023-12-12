@@ -81,7 +81,7 @@ const Table = ({
               const timestamp = selectedDuration * 1000;
               const now = Date.now();
               const countdown = formatCountdown(timestamp);
-              console.log(selectedCandidates);
+
 
               const winnerIndices: any = [];
               let maxVotes = 0;
@@ -107,7 +107,7 @@ const Table = ({
                 }
               }); 
 
-              console.log([selectedWinnerIndices])
+
               return (
                 <>
                   <tr
