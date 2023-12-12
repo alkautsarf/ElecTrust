@@ -156,6 +156,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     );
     const result = await response.json();
 
+    console.log(result)
+
     const electionInfoPromises = result.map((item: any) => {
       return readElectionInfo(item.contractAddress);
     });
