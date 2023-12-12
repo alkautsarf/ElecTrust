@@ -1,16 +1,17 @@
 # elecTrust
 
+## Main Problem
+I perceive that the current centralized electoral system lacks transparency, trustworthiness, and the capability to offer a clear and secure voting process for citizens. Current elections are marred by concerns of manipulation, fraud, and a lack of verifiable results. The centralization of authority poses a significant risk to the integrity of the electoral process, and citizens are skeptical about the accuracy and fairness of election outcomes. This lack of trust in the system undermines the foundation of democratic processes, leading to decreased confidence among voters.
+
 ## Overview
 elecTrust is a blockchain-based voting system designed to revolutionize and enhance the electoral process by prioritizing trust, transparency, and security. The platform leverages the inherent characteristics of blockchain technology to create a tamper-resistant and verifiable system for recording votes in elections.
 
 ## Key Features
 * **Blockchain Transparency:** Utilizes a decentralized blockchain to record each vote as a secure and immutable transaction. This ensures that once a vote is cast, it cannot be altered or tampered with, providing a transparent and trustworthy electoral history.
-* **Voter Authentication:** Implements a robust system for voter authentication using cryptographic techniques. This helps ensure that only eligible voters can participate in the election, maintaining the integrity of the voting process.
 * **Smart Contract Automation:** Integrates smart contracts to automate various aspects of the voting process, including candidate registration, voter verification, and result tabulation. Smart contracts execute predefined rules, reducing the risk of human error and fraud.
 * **Verifiable Audits:** Facilitates easy and verifiable audits of the election results. Election authorities, candidates, and the public can independently verify the authenticity of each vote by examining the blockchain.
 * **Anonymity Protection:** Prioritizes voter anonymity by employing cryptographic methods to ensure that individual votes cannot be traced back to specific voters. This protection of privacy is crucial for fostering a sense of security among voters.
 * **Decentralization:** Removes the reliance on a central authority, reducing the risk of manipulation and fraud. The decentralized nature of the system ensures that no single point of failure exists in the electoral process.
-* **Secure Polling Network:** Establishes a secure network for polling, preventing unauthorized access and manipulation of votes. The use of blockchain enhances the overall security posture of the electoral system.
 * **Accessibility and Inclusivity:** Strives to enhance accessibility by allowing voters to cast their ballots remotely using digital devices. This approach aims to increase voter turnout and make the voting process more convenient for a broader range of citizens.
 
 ## Vision
@@ -30,3 +31,5 @@ We are continuously working on enhancing elecTrust to provide a more comprehensi
 * Enhanced security measures
 
 Stay tuned for these exciting updates!
+
+#### Live App : https://electrust.xyz
