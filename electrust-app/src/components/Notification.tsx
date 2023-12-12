@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FiAlertCircle, FiX } from "react-icons/fi";
 import { useEffect } from "react";
 
-const NOTIFICATION_TTL = 5000;
+const NOTIFICATION_TTL = 2000;
 
 const Notification = ({ id, removeNotif, text }:any) => {
   useEffect(() => {

@@ -16,17 +16,13 @@ const CandidateModal = ({
   setIsOpen,
   candidates,
   contractAddress,
-  refreshData,
   formattedDate,
-  countdown
+  countdown,
+  winner
 }: any) => {
   const { address } = useAccount();
   const [notification, setNotification] = useState<any>(null);
 
-  useEffect(() => {
-    console.log(formattedDate, Date.now());
-    
-  }, [])
   const removeNotif = () => {
     setNotification(null);
   };
@@ -39,7 +35,7 @@ const CandidateModal = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+          className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center cursor-pointer"
         >
           <motion.div
             initial={{ scale: 0, rotate: "12.5deg" }}
@@ -48,7 +44,7 @@ const CandidateModal = ({
             onClick={(e) => e.stopPropagation()}
           >
             <Countdown formattedDate={formattedDate} countdown={countdown}/>
-            <BarPoll candidates={candidates} isOpen={isOpen} address={address} contractAddress={contractAddress} refreshData={refreshData} setNotification={setNotification}/>
+            <BarPoll winner={winner} candidates={candidates} isOpen={isOpen} address={address} contractAddress={contractAddress} setNotification={setNotification}/>
           </motion.div>
           <AnimatePresence>
           {notification && <Notification removeNotif={removeNotif} key={1} text={formattedDate < Date.now() ? "Vote Ends 🙁" : "You Can Only Cast Vote Once 🥲"} />}

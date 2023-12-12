@@ -1,4 +1,7 @@
 import { motion } from "framer-motion";
+import { Poppins } from "next/font/google";
+const poppins600 = Poppins({ weight: "600", subsets: ["latin"] });
+
 
 const Loader = () => {
   return (
@@ -27,6 +30,9 @@ const variants:any = {
 
 const BarLoader = () => {
   return (
+    <>
+    <div className="flex flex-col items-center">
+      
     <motion.div
       transition={{
         staggerChildren: 0.25,
@@ -41,6 +47,9 @@ const BarLoader = () => {
       <motion.div variants={variants} className="h-12 w-2 bg-white" />
       <motion.div variants={variants} className="h-12 w-2 bg-white" />
     </motion.div>
+    <h2 className={`${poppins600.className} text-xl text-white mt-4`}>Loading...</h2>
+    </div>
+    </>
   );
 };
 

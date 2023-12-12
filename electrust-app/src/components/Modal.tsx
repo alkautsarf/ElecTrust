@@ -28,7 +28,7 @@ const SpringModal = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+          className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center cursor-pointer"
         >
           <motion.div
             initial={{ scale: 0, rotate: "12.5deg" }}
@@ -83,7 +83,7 @@ const TerminalContact = ({
         onClick={() => {
           inputRef.current?.focus();
         }}
-        className="h-96 bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono"
+        className="h-96 bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll no-scrollbar shadow-xl cursor-text font-mono"
       >
         <TerminalHeader />
         <TerminalBody

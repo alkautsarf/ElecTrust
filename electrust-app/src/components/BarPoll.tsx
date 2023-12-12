@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { castVote } from "@/scripts/contract";
 
-
 const BarPoll = ({
   candidates,
   isOpen,
   address,
   contractAddress,
-  refreshData,
-  setNotification
+  setNotification,
+  winner,
 }: any) => {
   const [votes, setVotes] = useState<any>([
     // {
@@ -47,13 +46,12 @@ const BarPoll = ({
       <div className="mx-auto grid max-w-4xl grid-cols-1 gap-2 md:grid-cols-[1fr_400px] md:gap-12">
         <Options
           votes={votes}
-          setVotes={setVotes}
           address={address}
           contractAddress={contractAddress}
-          refreshData={refreshData}
           setNotification={setNotification}
+          winner={winner}
         />
-        <Bars votes={votes} />
+        <Bars votes={votes} winner={winner} />
       </div>
     </section>
   );
@@ -61,60 +59,64 @@ const BarPoll = ({
 
 const Options = ({
   votes,
-  setVotes,
   address,
   contractAddress,
-  refreshData,
-  setNotification
+  setNotification,
+  winner,
 }: any) => {
   const totalVotes = votes.reduce((acc: any, cv: any) => (acc += cv.votes), 0);
-
 
   return (
     <div className="col-span-1 py-12">
       <h3 className="mb-6 text-3xl font-semibold text-slate-50">
-        Cast Your Vote 🚀
+        {winner !== "Draw" &&
+          winner !== "Ongoing" &&
+          `${winner} is the winner 👑`}
+        {winner === "Draw" && `${winner} 🤝`}
+        {winner === "Ongoing" && "Cast Your Vote 🚀"}
       </h3>
       <div className="mb-6 space-y-2">
-        {votes.map((vote: any, index: any) => {
-          return (
-            <motion.button
-              whileHover={{ scale: 1.015 }}
-              whileTap={{ scale: 0.985 }}
-              onClick={async () => {
-                const vote: any = await castVote(
-                  address,
-                  contractAddress,
-                  index + 1
-                );
-                if(vote?.shortMessage) setNotification(true);
-              }}
-              key={vote.title}
-              className={`w-full rounded-md ${vote.color} py-2 font-medium text-white`}
-            >
-              {vote.title}
-            </motion.button>
-          );
-        })}
+        {winner === "Ongoing" &&
+          votes.map((vote: any, index: any) => {
+            return (
+              <motion.button
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                onClick={async () => {
+                  const vote: any = await castVote(
+                    address,
+                    contractAddress,
+                    index + 1
+                  );
+                  if (vote?.shortMessage) setNotification(true);
+                }}
+                key={vote.title}
+                className={`w-full rounded-md ${vote.color} py-2 font-medium text-white`}
+              >
+                {vote.title}
+              </motion.button>
+            );
+          })}
+        {winner !== "Draw" &&
+          winner !== "Ongoing" && (
+          <motion.button
+            whileHover={{ scale: 1.015 }}
+            whileTap={{ scale: 0.985 }}
+            key={winner}
+            className={`w-full rounded-md bg-amber-200 py-2 font-medium text-amber-800`}
+          >
+            {winner}
+          </motion.button>
+        )}
       </div>
       <div className="flex items-center justify-between">
         <span className="mb-2 italic text-slate-50">{totalVotes} votes</span>
-        <motion.button
-          whileHover={{ scale: 1.015 }}
-          whileTap={{ scale: 0.985 }}
-          onClick={() => {
-            refreshData();
-          }}
-          className="rounded-sm bg-slate-700 px-2 py-1.5 text-sm font-medium text-slate-200"
-        >
-          Refresh
-        </motion.button>
       </div>
     </div>
   );
 };
 
-const Bars = ({ votes }: any) => {
+const Bars = ({ votes, winner }: any) => {
   const totalVotes = votes.reduce((acc: any, cv: any) => (acc += cv.votes), 0);
 
   return (
@@ -133,13 +135,13 @@ const Bars = ({ votes }: any) => {
             <div className="relative flex h-full w-full items-end overflow-hidden rounded-2xl bg-gradient-to-b from-slate-700 to-slate-800">
               <motion.span
                 animate={{ height: `${height}%` }}
-                className={`relative z-0 w-full ${vote.color}`}
+                className={`relative z-0 w-full ${winner === vote.title ? `bg-amber-200` : vote.color}`}
                 transition={{ type: "spring" }}
               />
               <span className="absolute bottom-0 left-[50%] mt-2 inline-block w-full -translate-x-[50%] p-2 text-center text-sm text-slate-50">
-                <b>{vote.title}</b>
+                <b className={`${winner === vote.title ? `text-amber-800` : `text-slate-50`}`}>{vote.title}</b>
                 <br></br>
-                <span className="text-xs text-slate-200">
+                <span className={`text-xs ${winner === vote.title ? `text-amber-800` : `text-slate-200`}`}>
                   {vote.votes} votes
                 </span>
               </span>

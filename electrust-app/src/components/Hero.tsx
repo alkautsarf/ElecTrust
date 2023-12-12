@@ -137,7 +137,7 @@ const Hero = () => {
           />
         ))}
       </div>
-      <div className="absolute inset-[385px]">
+      <div className="absolute inset-[385px] ">
         <div className="pointer-events-none flex flex-col items-center justify-center p-8">
           <div
             className={`${poppins600.className} text-center text-7xl font-black text-neutral-950 sm:text-8xl md:text-8xl mb-6`}

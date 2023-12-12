@@ -9,7 +9,7 @@ const Terminal = () => {
   const inputRef: any = useRef(null);
 
   return (
-    <section className="mx-10 flex justify-center items-center gap-6 h-[120vh] flex-col" id="about">
+    <section className="mx-10 flex justify-center items-center gap-6 h-screen flex-col" id="about">
       <div>
         <h2 className={`${poppins500.className} text-8xl px-6 py-3`}>
           What is
@@ -22,7 +22,7 @@ const Terminal = () => {
       </div>
       <div
         ref={containerRef}
-        className=" bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono mt-8 "
+        className=" bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto h-64 shadow-xl cursor-text font-mono mt-8 "
       >
         <TerminalHeader />
         <TerminalBody inputRef={inputRef} containerRef={containerRef} />
@@ -53,7 +53,7 @@ const TerminalBody = ({ containerRef, inputRef }: any) => {
   const curQuestion = questions.find((q) => !q.complete);
 
   return (
-    <div className="p-2 text-slate-100 text-lg">
+    <div className="p-2 text-slate-100 text-lg ">
       <CurLine
         text={text}
         focused={focused}

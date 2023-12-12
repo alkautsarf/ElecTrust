@@ -405,7 +405,7 @@ const ExampleFeature = ({ featureInView }: any) => {
         )}
       </div>
       <span className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] text-9xl text-slate-700 z-0">
-        {/* <featureInView.Icon /> */}
+        {featureInView.id == 4 && <featureInView.Icon /> }
       </span>
     </div>
   );

@@ -11,6 +11,8 @@ import { AnimatePresence } from "framer-motion";
 import Notification from "@/components/Notification";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
+import { IoMdRefresh } from "react-icons/io";
+
 declare global {
   interface Window {
     ethereum: any;
@@ -37,7 +39,6 @@ const App = ({ electionInfo }: any) => {
     setIsRefreshing(false);
   }, [electionInfo]);
 
-
   const removeNotif = () => {
     setNotification(null);
   };
@@ -51,26 +52,33 @@ const App = ({ electionInfo }: any) => {
         <div className="flex flex-col h-[60vh] w-[80%] gap-5">
           <div className="flex justify-between items-center ">
             <h2 className="text-4xl">Votes</h2>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                isConnected ? setIsOpen(true) : setNotification(true);
-              }}
-              className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
-            >
-              + New Election
-            </button>
+            <div className="flex items-center gap-5">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  refreshData();
+                }}
+                className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-[17px] font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+              >
+                <IoMdRefresh />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  isConnected ? setIsOpen(true) : setNotification(true);
+                }}
+                className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+              >
+                + New Election
+              </button>
+            </div>
           </div>
-          <Table electionInfo={electionInfo} setNotification={setNotification} isConnected={isConnected} refreshData={refreshData} />
-          <button
-              onClick={(e) => {
-                e.preventDefault();
-                refreshData();
-              }}
-              className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
-            >
-              refresh
-            </button>
+          <Table
+            electionInfo={electionInfo}
+            setNotification={setNotification}
+            isConnected={isConnected}
+            refreshData={refreshData}
+          />
         </div>
         <SpringModal
           isOpen={isOpen}
@@ -79,10 +87,17 @@ const App = ({ electionInfo }: any) => {
           setContractAddresses={setContractAddresses}
         />
         <AnimatePresence>
-          {notification && <Notification removeNotif={removeNotif} key={1} text={"Please Connect Your Wallet 🫡"} />}
+          {notification && (
+            <Notification
+              removeNotif={removeNotif}
+              key={1}
+              text={"Please Connect Your Wallet 🫡"}
+            />
+          )}
         </AnimatePresence>
         {isRefreshing && <Loader />}
       </section>
+      <div className="h-[15vh]"></div>
     </>
   );
 };
@@ -146,7 +161,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     });
 
     transformedInfo = await Promise.all(electionInfoPromises);
-
   } catch (error) {
     console.error("Error fetching data:", error);
   }
