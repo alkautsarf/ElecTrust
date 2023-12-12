@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CandidateModal from "./CandidateModal";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { FiAward } from "react-icons/fi";
@@ -29,6 +29,7 @@ const Table = ({
     setSelectedDuration(+duration);
     setIsOpen(true);
   };
+
 
   const formatCountdown = (timestamp: any) => {
     const targetDate: any = new Date(timestamp);
@@ -169,7 +170,7 @@ const Table = ({
           </tbody>
         )}
       </table>
-      {!electionInfo && (
+      {electionInfo.length === 0 && (
         <tbody className="w-full h-[30vh] flex justify-center items-center">
             <h2 className="text-slate-300 text-center text-3xl">No Votes Yet ☹️</h2>
         </tbody>
