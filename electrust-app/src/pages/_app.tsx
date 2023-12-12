@@ -6,6 +6,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import {sepolia, goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { Analytics } from '@vercel/analytics/react';
 
 const { chains, publicClient } = configureChains(
   [sepolia],
@@ -32,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
         <Component {...pageProps} />
+        <Analytics />
       </RainbowKitProvider>
     </WagmiConfig>
   );
